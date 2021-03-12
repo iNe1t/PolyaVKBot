@@ -3,25 +3,15 @@ import sqlite3 as sql
 import time
 import random
  
-connection = sql.connect("vkbot.db")
- 
-q = connection.cursor()
- 
-q.execute('''CREATE TABLE user_table
-(
-id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-Name Varchar (100),
-User_ID INTEGER,
-Balance INTEGER,
-Ownment Varchar(100)
-)
-''')
- 
-connection.commit()
-connection.close()
+DATABASE = sql.connect('vkbot.db')
+DATABASE.row_factory = lambda cursor, row: row[0]
+with DATABASE:
+    cur = DATABASE.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS `user_info` (`userid` STRING, `user_balance` INTEGER)")
+    DATABASE.commit()
  
  
-token = "вставь сюда свой токен"
+token = "0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500"
  
 vk = vk_api.VkApi(token=token)
 vk._auth_token()
@@ -32,6 +22,9 @@ while True:
         if messages["count"] >= 1:
             id = messages['items'][0]['last_message']['peer_id']
             body = messages['items'][0]['last_message']['text']
-            print("Я,типо, работаю")
-    except:
+            if body.lower() == "начать":
+                print("Я,типо, работаю")
+                vk.method("messages.send", {"peer_id": id, "message": "Привет", "random_id": random.randint(0)})
+    except Exception as E:
+        print(E)
         time.sleep(1)
