@@ -1,12 +1,14 @@
 # Скрипт был создан автором канала IT THINGS: https://www.youtube.com/c/ITTHINGS
 
-from flask import Flask, request, json
-
 import vk_api
 import random
 import sqlite3 as sql
 import time
+from flask import Flask, request, json
+
+
 token = "0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500"
+
 vk = vk_api.VkApi(token=token)
 
 DATABASE = sql.connect('vkbot.db')
