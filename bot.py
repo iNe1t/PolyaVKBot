@@ -1,8 +1,14 @@
+# Скрипт был создан автором канала IT THINGS: https://www.youtube.com/c/ITTHINGS
+
+from flask import Flask, request, json
+
 import vk_api
+import random
 import sqlite3 as sql
 import time
-import random
- 
+token = "0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500"
+vk = vk_api.VkApi(token=token)
+
 DATABASE = sql.connect('vkbot.db')
 DATABASE.row_factory = lambda cursor, row: row[0]
 with DATABASE:
@@ -10,21 +16,22 @@ with DATABASE:
     cur.execute("CREATE TABLE IF NOT EXISTS `user_info` (`userid` STRING, `user_balance` INTEGER)")
     DATABASE.commit()
  
- 
-token = "0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500"
- 
-vk = vk_api.VkApi(token=token)
-vk._auth_token()
- 
-while True:
-    try:
-        messages = vk.method("messages.getConversations", {"offset": 0, "count": 200, "filter": "unanswered"})
-        if messages["count"] >= 1:
-            id = messages['items'][0]['last_message']['peer_id']
-            body = messages['items'][0]['last_message']['text']
-            if body.lower() == "начать":
-                print("Я,типо, работаю")
-                vk.method("messages.send", {"peer_id": id, "message": "Привет", "random_id": random.randint(0)})
-    except Exception as E:
-        print(E)
-        time.sleep(1)
+
+app = Flask(__name__)
+
+@app.route('/', methods = ["POST"])
+def main():
+    data = json.loads(request.data)
+    if data["type"] == "confirmation":
+        return "код подтверждения"
+    elif data["type"] == "message_new":
+        object = data["object"]
+        id = object["peer_id"]
+        body = object["text"]
+        if body.lower() == "привет":
+                vk.method("messages.send", {"peer_id": id, "message": "Привет!", "random_id": random.randint(1, 2147483647)})
+        elif body.lower() == "я не подписан на канал it things":
+                vk.method("messages.send", {"peer_id": id, "message": "Казнить грешника!", "random_id": random.randint(1, 2147483647)})
+        else:
+            vk.method("messages.send", {"peer_id": id, "message": "Не понял тебя!", "random_id": random.randint(1, 2147483647)})
+    return "ok"
