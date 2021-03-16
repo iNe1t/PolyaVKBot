@@ -20,7 +20,6 @@ for event in longpoll.listen():
     id = event.object.message['from_id']
     if event.type == VkBotEventType.MESSAGE_NEW:
         if id == 213344682 and event.from_chat:
-            print("Дина сморозила хрень")
             vk.messages.send(
                     key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = SERVER,
