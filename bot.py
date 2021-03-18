@@ -5,7 +5,8 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
-
+import MemModer
+import MemGames
 
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
 longpoll = VkBotLongPoll(vk_session, '203143170')
@@ -18,6 +19,7 @@ TS = '1'
 
 for event in longpoll.listen():
     id = event.object.message['from_id']
+    print(event)
     if event.type == VkBotEventType.MESSAGE_NEW:
         if id == 213344682 and event.from_chat:
             vk.messages.send(
