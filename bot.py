@@ -16,10 +16,6 @@ KEY = 'd8c36cdf12cccf78e77d0881b6a0b81ecedc999f'
 SERVER = 'https://lp.vk.com/wh203143170'
 TS = '1'
 
-token = "0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500"
-
-vk = vk_api.VkApi(token=token)
-
 for event in longpoll.listen():
     id = event.object.message['from_id']
     if event.type == VkBotEventType.MESSAGE_NEW:
@@ -42,4 +38,3 @@ for event in longpoll.listen():
               	    message='Привет!',
             	    chat_id = event.chat_id
                     )
-        
