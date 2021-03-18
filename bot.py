@@ -32,8 +32,10 @@ def main():
         body = object["text"]
         if body.lower() == "привет":
                 vk.method("messages.send", {"peer_id": id, "message": "Привет!", "random_id": random.randint(1, 2147483647)})
-        elif body.lower() == "я не подписан на канал it things":
-                vk.method("messages.send", {"peer_id": id, "message": "Казнить грешника!", "random_id": random.randint(1, 2147483647)})
+        elif body.lower() == "как дела":
+                vk.method("messages.send", {"peer_id": id, "message": "Я съел деда", "random_id": random.randint(1, 2147483647)})
         else:
             vk.method("messages.send", {"peer_id": id, "message": "Не понял тебя!", "random_id": random.randint(1, 2147483647)})
     return "ok"
+
+app.run(debug=True)
