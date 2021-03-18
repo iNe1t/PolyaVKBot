@@ -19,7 +19,9 @@ TS = '1'
 
 for event in longpoll.listen():
     id = event.object.message['from_id']
-    print(event)
+    type = event.type
+    text = event.object.message['text']
+    msg_id = event.object.message['id']
     if event.type == VkBotEventType.MESSAGE_NEW:
         if id == 213344682 and event.from_chat:
             vk.messages.send(
