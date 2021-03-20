@@ -5,6 +5,10 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
+import phrases
+import requests
+
+tokenSex = "419bc49707e759aca13752c2b4e1e9f72e62689f2e345d7b8e9f48f6d3855bf77f103f3873f60fff19e8a"
 
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
 longpoll = VkBotLongPoll(vk_session, '203143170')
@@ -52,7 +56,7 @@ for event in longpoll.listen():
                     server = SERVER,
                     ts = TS,
                     random_id = get_random_id(),
-              	    message=username + ' , иди в жопу',
+              	    message=username + ', иди в жопу',
             	    chat_id = event.chat_id
                     )
         elif 'Ку' in str(event) or 'Привет' in str(event) or 'Хай' in str(event) or 'Хелло' in str(event) or 'Хеллоу' in str(event):
@@ -101,3 +105,14 @@ for event in longpoll.listen():
             	    chat_id = event.chat_id
                     )
             pozor(text)
+        elif '$фраза' in str(event) :
+            sex = vk.users.get(user_id=id)[0]
+            print(sex)
+            vk.messages.send(
+                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = SERVER,
+                    ts = TS,
+                    random_id = get_random_id(),
+              	    message=username + phrases.phrase_list[random.randint(0, phrases.list_len)],
+            	    chat_id = event.chat_id
+                    )
