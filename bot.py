@@ -126,7 +126,6 @@ for event in longpoll.listen():
                     )
         elif '$дайхентай' in str(event) :
                 link = phrases.hmtai_categories[random.randint(0, phrases.hc_len)]
-                print(link)
                 picturelink = hmtai.useHM("v2", link)
                 vk.messages.send(
                         key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
