@@ -18,6 +18,8 @@ phrase_list_female = [", ты являешься прямым доказател
 ", cделай фокус, растворись в воздухе.",
 ", ты тупой или да?",
 ]
-hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga", "hentai", "ahegao"]
+hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga", 
+                    "hentai", "ahegao", "nsfwMobileWallpaper", "gif", "nsfwNeko", "gangbang", "uniform", "foot",
+                    "pantsu", "tentacles", "thighs"]
 hc_len = len(hmtai_categories) - 1
 list_len = len(phrase_list_male) - 1
