@@ -19,6 +19,10 @@ phrase_list_female = [", ты являешься прямым доказател
 ", ты тупой или да?",
 ]
 
+KEY = 'd8c36cdf12cccf78e77d0881b6a0b81ecedc999f'
+SERVER = 'https://lp.vk.com/wh203143170'
+TS = '1'
+
 pozor_list = []
 ban_list = []
 

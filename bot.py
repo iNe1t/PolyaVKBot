@@ -12,11 +12,7 @@ import requests
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
 longpoll = VkBotLongPoll(vk_session, '203143170')
 vk = vk_session.get_api()
-Lslongpoll = VkLongPoll(vk_session)
-Lsvk = vk_session.get_api()
-KEY = 'd8c36cdf12cccf78e77d0881b6a0b81ecedc999f'
-SERVER = 'https://lp.vk.com/wh203143170'
-TS = '1'
+
 
 for event in longpoll.listen():
 
@@ -33,9 +29,9 @@ for event in longpoll.listen():
                 print("ID юзера для позора:" + str(reply_msg_id))
                 config.pozor_list.remove(reply_msg_id)
                 return vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message='Пользователь больше не опозорен!',
             	    chat_id = event.chat_id
@@ -43,9 +39,9 @@ for event in longpoll.listen():
             depozor(text)
         elif (id in config.pozor_list) and event.from_chat:
             vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message=username + ', иди в жопу',
             	    chat_id = event.chat_id
@@ -53,9 +49,9 @@ for event in longpoll.listen():
         elif 'Ку' in str(event) or 'Привет' in str(event) or 'Хай' in str(event) or 'Хелло' in str(event) or 'Хеллоу' in str(event):
             if event.from_chat:
                 vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message='Привет, ' + username +"!",
             	    chat_id = event.chat_id
@@ -69,9 +65,9 @@ for event in longpoll.listen():
                     user_id=reply_msg_id,
                 )
                 return vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message='Пользователь забанен!',
             	    chat_id = event.chat_id
@@ -84,9 +80,9 @@ for event in longpoll.listen():
                 config.pozor_list.append(reply_msg_id)
                 print("Добавлен в позор лист")
                 return vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message='Пользователь опозорен!',
             	    chat_id = event.chat_id
@@ -96,18 +92,18 @@ for event in longpoll.listen():
             sex = vk.users.get(user_id=id, fields='sex')[0]['sex']
             if sex == 2:
                 vk.messages.send(
-                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                        server = SERVER,
-                        ts = TS,
+                        key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = config.SERVER,
+                        ts = config.TS,
                         random_id = get_random_id(),
                         message=username + config.phrase_list_male[random.randint(0, config.list_len)],
                         chat_id = event.chat_id
                         )
             elif sex == 1:
                 vk.messages.send(
-                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = SERVER,
-                    ts = TS,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = get_random_id(),
               	    message=username + config.phrase_list_female[random.randint(0, config.list_len)],
             	    chat_id = event.chat_id
@@ -116,18 +112,18 @@ for event in longpoll.listen():
                 link = config.hmtai_categories[random.randint(0, config.hc_len)]
                 picturelink = hmtai.useHM("v2", link)
                 vk.messages.send(
-                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                        server = SERVER,
-                        ts = TS,
+                        key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = config.SERVER,
+                        ts = config.TS,
                         random_id = get_random_id(),
                         message= "Рандом " + str(link) + " из архивов: " + str(picturelink),
                         chat_id = event.chat_id
                         )
         elif '$команды' in str(event) :
                 vk.messages.send(
-                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                        server = SERVER,
-                        ts = TS,
+                        key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = config.SERVER,
+                        ts = config.TS,
                         random_id = get_random_id(),
                         message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан",
                         chat_id = event.chat_id
