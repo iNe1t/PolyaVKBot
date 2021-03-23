@@ -6,7 +6,7 @@ from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
 import hmtai
-import phrases
+import config
 import requests
 
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
@@ -17,11 +17,6 @@ Lsvk = vk_session.get_api()
 KEY = 'd8c36cdf12cccf78e77d0881b6a0b81ecedc999f'
 SERVER = 'https://lp.vk.com/wh203143170'
 TS = '1'
-global pozor_list
-pozor_list = []
-
-global ban_list
-ban_list = []
 
 for event in longpoll.listen():
 
@@ -36,10 +31,7 @@ for event in longpoll.listen():
             def depozor(text):
                 reply_msg_id = event.object.message['reply_message']['from_id']
                 print("ID юзера для позора:" + str(reply_msg_id))
-                pozor_list.remove(reply_msg_id)
-                print("Удален из позор листа")
-                print(pozor_list)
-                print(reply_msg_id in pozor_list)
+                config.pozor_list.remove(reply_msg_id)
                 return vk.messages.send(
                     key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = SERVER,
@@ -49,7 +41,7 @@ for event in longpoll.listen():
             	    chat_id = event.chat_id
                     )
             depozor(text)
-        elif (id in pozor_list) and event.from_chat:
+        elif (id in config.pozor_list) and event.from_chat:
             vk.messages.send(
                     key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = SERVER,
@@ -71,9 +63,7 @@ for event in longpoll.listen():
         elif '$бан' in str(event):
             def ban(text):
                 reply_msg_id = event.object.message['reply_message']['from_id']
-                print("ID юзера для бана: " + str(reply_msg_id))
-                ban_list.append(reply_msg_id)
-                print("добавлен в бан лист")
+                config.ban_list.append(reply_msg_id)
                 vk.messages.removeChatUser(
                     chat_id=event.chat_id,
                     user_id=reply_msg_id,
@@ -91,10 +81,8 @@ for event in longpoll.listen():
             def pozor(text):
                 reply_msg_id = event.object.message['reply_message']['from_id']
                 print("ID юзера для позора: " + str(reply_msg_id))
-                pozor_list.append(reply_msg_id)
+                config.pozor_list.append(reply_msg_id)
                 print("Добавлен в позор лист")
-                print(pozor_list)
-                print(reply_msg_id in pozor_list)
                 return vk.messages.send(
                     key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = SERVER,
@@ -112,7 +100,7 @@ for event in longpoll.listen():
                         server = SERVER,
                         ts = TS,
                         random_id = get_random_id(),
-                        message=username + phrases.phrase_list_male[random.randint(0, phrases.list_len)],
+                        message=username + config.phrase_list_male[random.randint(0, config.list_len)],
                         chat_id = event.chat_id
                         )
             elif sex == 1:
@@ -121,11 +109,11 @@ for event in longpoll.listen():
                     server = SERVER,
                     ts = TS,
                     random_id = get_random_id(),
-              	    message=username + phrases.phrase_list_female[random.randint(0, phrases.list_len)],
+              	    message=username + config.phrase_list_female[random.randint(0, config.list_len)],
             	    chat_id = event.chat_id
                     )
         elif '$дайхентай' in str(event) :
-                link = phrases.hmtai_categories[random.randint(0, phrases.hc_len)]
+                link = config.hmtai_categories[random.randint(0, config.hc_len)]
                 picturelink = hmtai.useHM("v2", link)
                 vk.messages.send(
                         key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
@@ -133,5 +121,14 @@ for event in longpoll.listen():
                         ts = TS,
                         random_id = get_random_id(),
                         message= "Рандом " + str(link) + " из архивов: " + str(picturelink),
+                        chat_id = event.chat_id
+                        )
+        elif '$команды' in str(event) :
+                vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан",
                         chat_id = event.chat_id
                         )

@@ -18,6 +18,10 @@ phrase_list_female = [", ты являешься прямым доказател
 ", cделай фокус, растворись в воздухе.",
 ", ты тупой или да?",
 ]
+
+pozor_list = []
+ban_list = []
+
 hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga", 
                     "hentai", "ahegao", "nsfwMobileWallpaper", "gif", "nsfwNeko", "gangbang", "uniform", "foot",
                     "pantsu", "tentacles", "thighs"]
