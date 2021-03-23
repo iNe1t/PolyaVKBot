@@ -8,6 +8,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import hmtai
 import config
 import requests
+import MemGames
 
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
 longpoll = VkBotLongPoll(vk_session, '203143170')
