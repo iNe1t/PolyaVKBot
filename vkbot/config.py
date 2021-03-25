@@ -1,3 +1,6 @@
+
+from vk_api.utils import get_random_id
+
 phrase_list_male = [", ты являешься прямым доказательством того, что человек может жить без мозгов.",
 ", а ты умнее, чем о тебе говорят!",
 ", проверьте подсоединение языка к мозгу.",
@@ -31,3 +34,4 @@ hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga",
                     "pantsu", "tentacles", "thighs"]
 hc_len = len(hmtai_categories) - 1
 list_len = len(phrase_list_male) - 1
+

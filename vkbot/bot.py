@@ -1,14 +1,18 @@
 import random, vk_api
 import vk
 import vk_api.vk_api
-from vk_api.keyboard import VkKeyboard, VkKeyboardColor
+import hmtai
+import config
+import sqlite3 as sql
+import requests
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
-import hmtai
-import config
-import requests
-import MemGames
+
+DATABASE = sql.connect('vk_mafia.db')
+with DATABASE:
+    cur = DATABASE.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS `mafia` (`userid` INTEGER, `role` STRING)")
 
 vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
 longpoll = VkBotLongPoll(vk_session, '203143170')
@@ -16,13 +20,66 @@ vk = vk_session.get_api()
 
 
 for event in longpoll.listen():
-
+#Переменные 
     id = event.object.message['from_id']
     type = event.type
     text = event.object.message['text']
     msg_id = event.object.message['id']
     username = vk.users.get(user_id=id)[0]['first_name']
+#Куча функций (да, я знаю, что можно и из файла, но я встал из-за кругового импорта(во всем виноват event >:( )))
+    def mafia(KEY, SERVER, TS, id, type, text, msg_id, username):
+            mafia_players = {}
+            mafia_roles = ['Мирный', 'Мафия', 'Доктор', 'Шериф']
+            role = mafia_roles[random.randint(0, len(mafia_roles)-1)]
+            game_is_started = False
+            if '$мафияначать' in str(event) and game_is_started == False: 
+                game_is_started = True
+                cur.execute(f"INSERT INTO `mafia` VALUES ('{id}', '{role}')")
+                db = cur.execute("SELECT * FROM mafia").fetchall()
+                print(db)
+                vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= username + " начинает игру Мафия! \n Пишите $мафияконнект, чтобы присоединиться.",
+                        chat_id = event.chat_id
+                        )
+            elif '$мафияконнект' in str(event):
+                existance = cur.execute("SELECT role FROM mafia WHERE userid=?", (id,)).fetchall()
+                db = cur.execute("SELECT * FROM mafia").fetchall()
+                if existance:
+                    vk.messages.send(
+                            key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                            server = SERVER,
+                            ts = TS,
+                            random_id = get_random_id(),
+                            message= username + " уже в игре!",
+                            chat_id = event.chat_id
+                            )
+                else:
+                    print(db) 
+                    cur.execute(f"INSERT INTO `mafia` VALUES ('{id}', '{role}')")
+                    vk.messages.send(
+                            key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                            server = SERVER,
+                            ts = TS,
+                            random_id = get_random_id(),
+                            message= username + " присоединяется к игре",
+                            chat_id = event.chat_id
+                            )
+            else: 
+                return vk.messages.send(
+                            key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                            server = SERVER,
+                            ts = TS,
+                            random_id = get_random_id(),
+                            message= "Игра уже начата",
+                            chat_id = event.chat_id
+                            )
 
+    
+# Тело самого бота
     if event.type == VkBotEventType.MESSAGE_NEW:
         if '$непозор' in str(event):
             def depozor(text):
@@ -126,6 +183,8 @@ for event in longpoll.listen():
                         server = config.SERVER,
                         ts = config.TS,
                         random_id = get_random_id(),
-                        message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан",
+                        message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан \n $мафияначать \n $мафияконнект",
                         chat_id = event.chat_id
                         )
+        elif '$мафия' in str(event) :
+            mafia(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username)
