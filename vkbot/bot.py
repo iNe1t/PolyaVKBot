@@ -18,6 +18,9 @@ vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711
 longpoll = VkBotLongPoll(vk_session, '203143170')
 vk = vk_session.get_api()
 
+global game
+game = False
+
 
 for event in longpoll.listen():
 #Переменные 
@@ -27,15 +30,22 @@ for event in longpoll.listen():
     msg_id = event.object.message['id']
     username = vk.users.get(user_id=id)[0]['first_name']
 #Куча функций (да, я знаю, что можно и из файла, но я встал из-за кругового импорта(во всем виноват event >:( )))
-    def mafia(KEY, SERVER, TS, id, type, text, msg_id, username):
-            mafia_players = {}
+    def mafia(KEY, SERVER, TS, id, type, text, msg_id, username, game):
             mafia_roles = ['Мирный', 'Мафия', 'Доктор', 'Шериф']
             role = mafia_roles[random.randint(0, len(mafia_roles)-1)]
-            game_is_started = False
-            if '$мафияначать' in str(event) and game_is_started == False: 
-                game_is_started = True
+            if '$мафияначать' in str(event):
+                if game == True:
+                    vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= username + " Игра уже начата!",
+                        chat_id = event.chat_id
+                        )
                 cur.execute(f"INSERT INTO `mafia` VALUES ('{id}', '{role}')")
                 db = cur.execute("SELECT * FROM mafia").fetchall()
+                game = True
                 print(db)
                 vk.messages.send(
                         key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
@@ -66,15 +76,6 @@ for event in longpoll.listen():
                             ts = TS,
                             random_id = get_random_id(),
                             message= username + " присоединяется к игре",
-                            chat_id = event.chat_id
-                            )
-            else: 
-                return vk.messages.send(
-                            key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                            server = SERVER,
-                            ts = TS,
-                            random_id = get_random_id(),
-                            message= "Игра уже начата",
                             chat_id = event.chat_id
                             )
 
@@ -187,4 +188,4 @@ for event in longpoll.listen():
                         chat_id = event.chat_id
                         )
         elif '$мафия' in str(event) :
-            mafia(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username)
+            mafia(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username, game)
