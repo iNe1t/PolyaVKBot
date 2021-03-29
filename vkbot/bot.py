@@ -4,7 +4,7 @@ import vk_api.vk_api
 import hmtai
 import config
 import sqlite3 as sql
-import requests
+import bot_key
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -14,22 +14,55 @@ with DATABASE:
     cur = DATABASE.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS `mafia` (`userid` INTEGER, `role` STRING)")
 
-vk_session = vk_api.VkApi(token='0eb84772aba8b19fa8e61c3c92cd75999e7f8c97932f711bc20c8c59cdd3a7adc9b60f84271f22eba5500')
+vk_session = vk_api.VkApi(token='44da98deef5d1311d2ca99d31e942a14c7e04db89630e25ce9e4775c9a3279d6ec7474e5974d582adbe74')
 longpoll = VkBotLongPoll(vk_session, '203143170')
 vk = vk_session.get_api()
 
 global game
 game = False
-
-
+# Это клава (не кока)
+#keyboard = bot_key.keyboard.get_keyboard()
 for event in longpoll.listen():
 #Переменные 
-    id = event.object.message['from_id']
-    type = event.type
     text = event.object.message['text']
     msg_id = event.object.message['id']
+    id = event.object.message['from_id']
     username = vk.users.get(user_id=id)[0]['first_name']
 #Куча функций (да, я знаю, что можно и из файла, но я встал из-за кругового импорта(во всем виноват event >:( )))
+    def rock_paper_scissors(KEY, SERVER, TS, id, type, text, msg_id, username, game):
+        if '$кнбпомощь' in str(event):
+            vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= "Игра 'Камень-Ножницы-Бумага' \n Чтобы вызвать кого-то, ответьте на сообщение с командой '$кнбвызов', Сообщение будет отправлено оппоненту, дождитесь его ответа.",
+                        chat_id = event.chat_id
+                        )
+        elif '$кнбвызов' in str(event):
+            reply_msg_id = event.object.message['reply_message']['from_id']
+            enemy_username = vk.users.get(user_id=reply_msg_id)[0]['first_name']
+            vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= "Вы бросили вызов игроку " + enemy_username,
+                        chat_id = event.chat_id,
+                        )
+            vk.messages.send(
+                        key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = SERVER,
+                        ts = TS,
+                        random_id = get_random_id(),
+                        message= username + " бросил вам вызов. Принимаете его?",
+                        user_id = reply_msg_id,
+                        id = 1
+                        )
+
+
+
+
     def mafia(KEY, SERVER, TS, id, type, text, msg_id, username, game):
             mafia_roles = ['Мирный', 'Мафия', 'Доктор', 'Шериф']
             role = mafia_roles[random.randint(0, len(mafia_roles)-1)]
@@ -78,10 +111,28 @@ for event in longpoll.listen():
                             message= username + " присоединяется к игре",
                             chat_id = event.chat_id
                             )
+            else:
+                vk.messages.send(
+                            key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                            server = SERVER,
+                            ts = TS,
+                            random_id = get_random_id(),
+                            message= "За командами к игре 'Мафия' пишите '$команды'",
+                            chat_id = event.chat_id
+                            )
 
     
 # Тело самого бота
     if event.type == VkBotEventType.MESSAGE_NEW:
+        if msg_id == 1:
+            vk.messages.send(
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
+                    random_id = get_random_id(),
+              	    message='Чел, я тут ничего не делаю',
+            	    chat_id = event.chat_id
+                    )
         if '$непозор' in str(event):
             def depozor(text):
                 reply_msg_id = event.object.message['reply_message']['from_id']
@@ -184,8 +235,10 @@ for event in longpoll.listen():
                         server = config.SERVER,
                         ts = config.TS,
                         random_id = get_random_id(),
-                        message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан \n $мафияначать \n $мафияконнект",
+                        message= "🧠Команды🧠 \n $непозор \n $дайхентай \n $фраза \n $позор \n $бан \n $мафияначать \n $мафияконнект \n $кнб \n $кнбвызов",
                         chat_id = event.chat_id
                         )
         elif '$мафия' in str(event) :
             mafia(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username, game)
+        elif '$кнб' in str(event) :
+            rock_paper_scissors(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username, game)

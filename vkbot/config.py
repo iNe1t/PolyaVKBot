@@ -1,6 +1,4 @@
 
-from vk_api.utils import get_random_id
-
 phrase_list_male = [", ты являешься прямым доказательством того, что человек может жить без мозгов.",
 ", а ты умнее, чем о тебе говорят!",
 ", проверьте подсоединение языка к мозгу.",
@@ -28,6 +26,7 @@ TS = '1'
 
 pozor_list = []
 ban_list = []
+admin_list = []
 
 hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga", 
                     "hentai", "ahegao", "nsfwMobileWallpaper", "gif", "nsfwNeko", "gangbang", "uniform", "foot",
