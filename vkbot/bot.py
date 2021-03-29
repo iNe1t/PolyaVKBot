@@ -57,7 +57,8 @@ for event in longpoll.listen():
                         random_id = get_random_id(),
                         message= username + " бросил вам вызов. Принимаете его?",
                         user_id = reply_msg_id,
-                        id = 1
+                        id = 1,
+                        keyboard = bot_key.keyboard_choose.get_keyboard()
                         )
 
 
