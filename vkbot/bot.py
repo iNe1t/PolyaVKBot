@@ -23,6 +23,10 @@ game = False
 # Это клава (не кока)
 #keyboard = bot_key.keyboard.get_keyboard()
 for event in longpoll.listen():
+    username = vk.users.get(user_id=id)[0]['first_name']
+    text = event.object.message['text']
+    enemy_username = vk.users.get(user_id=id)[0]['first_name']
+    enemy_id = event.object.message['reply_message']['from_id']
 #Куча функций (да, я знаю, что можно и из файла, но я встал из-за кругового импорта(во всем виноват event >:( )))
     def rock_paper_scissors(KEY, SERVER, TS, id, type, text, msg_id, username, game):
         if '$кнбпомощь' in str(event):
@@ -35,11 +39,6 @@ for event in longpoll.listen():
                         chat_id = event.chat_id
                         )
         elif '$кнбвызов' in str(event):
-            enemy_id = event.object.message['reply_message']['from_id']
-            your_id = event.object.message['from_id']
-            enemy_username = vk.users.get(user_id=enemy_id)[0]['first_name']
-            your_username = vk.users.get(user_id=your_id)[0]['first_name']
-            text = event.object.message['text']
             vk.messages.send(
                         key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                         server = SERVER,
@@ -58,45 +57,30 @@ for event in longpoll.listen():
                         id = 1,
                         keyboard = bot_key.keyboard_choose.get_keyboard()
                         )
-            if event.type == VkBotEventType.MESSAGE_NEW and id == 1:
-                if text == "Нет": #оппонент не принял вызов
-                    vk.messages.send(
+            id = event.object.message['from_id']
+            if text == "Да" and id == enemy_id:
+                vk.messages.send(
                         key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                         server = SERVER,
                         ts = TS,
                         random_id = get_random_id(),
-                        message= enemy_username + " отказал вам в вызове",
-                        user_id = your_id,
+                        message= "Выбери... Что-то",
+                        user_id = enemy_id,
                         id = 1,
-                        keyboard = bot_key.keyboard_choose.get_keyboard()
+                        keyboard = bot_key.keyboard_rps.get_keyboard()
                         )
-                elif text == "Да": #Оппонент принял вызов
-                    vk.messages.send(
-                                key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                                server = SERVER,
-                                ts = TS,
-                                random_id = get_random_id(),
-                                message= "Выбери.... что - то",
-                                user_id = your_id,
-                                id = 1,
-                                keyboard = bot_key.keyboard_rps.get_keyboard()
-                                )
-                    enemies_choise = event.object.message['text']
-                    print("Твой выбор: " + enemies_choise)
-                    vk.messages.send(
-                                key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                                server = SERVER,
-                                ts = TS,
-                                random_id = get_random_id(),
-                                message= "Выбери.... что - то",
-                                user_id = enemy_id,
-                                id = 1,
-                                keyboard = bot_key.keyboard_rps.get_keyboard()
-                                )
-                    your_choise = event.object.message['text']
-                    print("Твой выбор: " + your_choise)
-
-
+                enemy_choise = event.object.message['text']
+                print(enemy_choise)
+            else:
+                vk.messages.send(
+                    key = KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = SERVER,
+                    ts = TS,
+                    random_id = get_random_id(),
+                    message= enemy_username + " отказал в вызове от оппонента",
+                    chat_id = event.chat_id
+                    )
+            
 
 
 
@@ -209,7 +193,7 @@ for event in longpoll.listen():
               	    message='Привет, ' + username +"!",
             	    chat_id = event.chat_id
                     )
-        elif '$бан' in str(event):
+        elif '$бан' in str(event) and id in config.admin_list:
             text = event.object.message['text']
             def ban(text):
                 reply_msg_id = event.object.message['reply_message']['from_id']
@@ -296,3 +280,14 @@ for event in longpoll.listen():
             id = event.object.message['from_id']
             username = vk.users.get(user_id=id)[0]['first_name']
             rock_paper_scissors(config.KEY, config.SERVER, config.TS, id, type, text, msg_id, username, game)
+        elif '$датьадмина' in str(event) :
+                for_add_id = event.object.message['reply_message']['from_id']
+                config.admin_list.append(for_add_id)
+                vk.messages.send(
+                        key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                        server = config.SERVER,
+                        ts = config.TS,
+                        random_id = get_random_id(),
+                        message= "Теперь пользователь админ!",
+                        chat_id = event.chat_id
+                        )
