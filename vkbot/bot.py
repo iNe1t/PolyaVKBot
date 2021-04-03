@@ -14,9 +14,11 @@ for event in config.longpoll.listen():
         #2 — мужской
         sex = config.vk.users.get(user_id = id, fields = 'sex')[0]['sex']
         if sex == 2:
-            functions.msg_send(event, config.KEY, config.TS, config.SERVER, username + config.phrase_list_male[random.randint(0, config.list_len)] )
+            functions.msg_send(event, config.KEY, config.TS, config.SERVER, username + config.phrase_list_male[random.randint(0, config.list_len)])
         if sex == 1:
-            functions.msg_send(event, config.KEY, config.TS, config.SERVER, username + config.phrase_list_female[random.randint(0, config.list_len)] )
+            functions.msg_send(event, config.KEY, config.TS, config.SERVER, username + config.phrase_list_female[random.randint(0, config.list_len)])
+    elif '$бан' in str(event):
+
     #elif "$фраза" in str(event):
 
     #elif "$фраза" in str(event):
