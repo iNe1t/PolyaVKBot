@@ -1,18 +1,27 @@
 import config 
 
-def msg_send(event,key, ts, server, text):
+def msg_send(event, text):
     config.vk.messages.send(
-                    key = key,          #ВСТАВИТЬ ПАРАМЕТРЫ
-                    server = server,
-                    ts = ts,
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
                     random_id = config.get_random_id(),
               	    message=text,
             	    chat_id = event.chat_id
                     )
-def ban(event, key, ts, server):
+def ban(event):
     id_for_ban = event.object.message['reply_message']['from_id']
     config.vk.messages.removeChatUser(
         user_id=id_for_ban,
         chat_id=event.chat_id,
         random_id = config.get_random_id()
     )
+def send_private_msg(event, text):
+    config.vk.messages.send(
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
+                    random_id = config.get_random_id(),
+              	    message=text,
+            	    chat_id = event.chat_id
+                    )
