@@ -2,6 +2,8 @@ import config
 import functions
 import random
 import games
+import sqlite3
+
 
 
 for event in config.longpoll.listen():
@@ -23,10 +25,10 @@ for event in config.longpoll.listen():
         functions.ban(event)
     elif '$кнбвызов' in str(event):
         games.rock_paper_scissors(event)
-
-    #elif "$фраза" in str(event):
-
-    #elif "$фраза" in str(event):
+    elif "$дайхентай" in str(event):
+        functions.send_hentai(event)
+    elif "$беседа" in str(event):
+        functions.invited(event)
 
     #elif "$фраза" in str(event):
 

@@ -40,8 +40,8 @@ ban_list = []
 admin_list = []
 
 hmtai_categories = ["wallpaper", "mobileWallpaper", "neko", "jahy", "manga", 
-                    "hentai", "ahegao", "nsfwMobileWallpaper", "gif", "nsfwNeko", "gangbang", "uniform", "foot",
-                    "pantsu", "tentacles", "thighs"]
+                    "hentai", "ahegao", "nsfwMobileWallpaper", "nsfwNeko", "gangbang", "uniform", "foot",
+                    "tentacles", "thighs", "ass", "bdsm", "cum", "femdom", "ero", "orgy"]
 hc_len = len(hmtai_categories) - 1
 list_len = len(phrase_list_male) - 1
 
