@@ -49,3 +49,5 @@ vk_session = vk_api.VkApi(token='44da98deef5d1311d2ca99d31e942a14c7e04db89630e25
 longpoll = VkBotLongPoll(vk_session, '203143170')
 vk = vk_session.get_api()
 
+mat_list = ['блин']
+
