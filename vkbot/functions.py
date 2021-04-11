@@ -51,21 +51,20 @@ def delete_msg(event, message_id_yep):
                 message_ids=message_id_yep,
                 delete_for_all=True)
 def antimat(event):
-    for event in config.longpoll.listen():
+    on = False
+    text = event.object.message['text']
+    if text in config.mat_list and on == True:
+            someList = []
+            message_id_for_delete = event.object.message['conversation_message_id']
+            print(message_id_for_delete)
+            someList.append(message_id_for_delete)
+            delete_msg(event, message_id_for_delete)
+            msg_send(event, 'Не ругайся, щука брать')
+    elif '$антимат_вкл' in str(event) and on == False:
+        on = True
+        msg_send(event, "Антимат включен")
+    elif '$антимат_выкл' in str(event):
         on = False
-        text = event.object.message['text']
-        if text in config.mat_list:
-                someList = []
-                message_id_for_delete = event.object.message['conversation_message_id']
-                print(message_id_for_delete)
-                someList.append(message_id_for_delete)
-                delete_msg(event, message_id_for_delete)
-                msg_send(event, 'Не ругайся, щука брать')
-        elif '$антимат_вкл' in str(event) and on == False:
-            on = True
-            msg_send(event, "Антимат включен")
-        elif '$антимат_выкл' in str(event):
-            on = False
-            msg_send(event, "Антимат отключен")
-        else:
-            msg_send(event, "Функция антимат отключена. Для включения набери '$антимат_вкл'")
+        msg_send(event, "Антимат отключен")
+    else:
+        msg_send(event, "Функция антимат отключена. Для включения набери '$антимат_вкл'")
