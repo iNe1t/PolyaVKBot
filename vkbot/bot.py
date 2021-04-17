@@ -26,10 +26,8 @@ for event in config.longpoll.listen():
     elif '$кнбвызов' in str(event):
         games.rock_paper_scissors(event)
     elif "$дайхентай" in str(event):
-        functions.send_hentai(event)
+        functions.send_hmtai(event)
     elif "$беседа" in str(event):
         functions.invited(event)
-
-    #elif "$фраза" in str(event):
-
-    #elif "$фраза" in str(event):
+    elif "$антимат" in str(event):
+        functions.antimat(event)
