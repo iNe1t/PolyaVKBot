@@ -4,9 +4,9 @@ import random
 import games
 import sqlite3
 
-
-
 for event in config.longpoll.listen():
+    msg_id = config.vk.messages.messages.getByConversationMessageId()
+    print(chat)
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
