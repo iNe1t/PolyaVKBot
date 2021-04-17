@@ -5,12 +5,12 @@ import games
 import sqlite3
 
 for event in config.longpoll.listen():
-    msg_id = config.vk.messages.messages.getByConversationMessageId()
-    print(chat)
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
-    if text in config.hi_list:
+    if text in config.mat_list:
+        functions.delete_msg(event)
+    elif text in config.hi_list:
         functions.msg_send(event, "Привет, " + config.vk.users.get(user_id=id)[0]['first_name'])
     elif "$фраза" in str(event):
         #Обозначения полов
@@ -31,3 +31,4 @@ for event in config.longpoll.listen():
         functions.invited(event)
     elif "$антимат" in str(event):
         functions.antimat(event)
+    

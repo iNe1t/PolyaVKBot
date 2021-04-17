@@ -46,9 +46,12 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def delete_msg(event, message_id_yep):
+def delete_msg(event):
+    cnvrs_msg_id = event.object.message['conversation_message_id']
+    msg_id = list(config.vk.messages.getByConversationMessageId(peer_id=2000000004 ,conversation_message_ids=cnvrs_msg_id))
+    print(msg_id)
     config.vk.messages.delete(
-                message_ids=message_id_yep,
+                message_ids=msg_id,
                 delete_for_all=True)
 def antimat(event):
     for event in config.longpoll.listen():
