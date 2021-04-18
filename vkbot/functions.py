@@ -46,7 +46,7 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def antimat(event, on):
+def antimat_setup(event, on):
     text = event.object.message['text']
     if '$антимат_вкл' in str(event):
         on = True
@@ -54,8 +54,10 @@ def antimat(event, on):
     elif '$антимат_выкл' in str(event):
         on = False
         msg_send(event, "Антимат отключен")
-    elif text in config.mat_list and on == True:
-            msg_send(event, 'Не ругайся, щука брать')
     else:
         msg_send(event, "Антимат \n Позволяет карать тех, кто обильно выражается. \n Для включения набери '$антимат_вкл'")
-    return on
+    return print(on)
+def antimat_check(event, on):
+    text = event.object.message['text']
+    if text in config.mat_list and on == True:
+            msg_send(event, 'Не ругайся, щука брать')
