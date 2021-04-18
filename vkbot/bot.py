@@ -8,8 +8,8 @@ for event in config.longpoll.listen():
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
-    if text in config.mat_list:
-        functions.delete_msg(event)
+    if (text in config.mat_list and config.on == True) or "$антимат" in str(event):
+        functions.antimat(event, config.on)
     elif text in config.hi_list:
         functions.msg_send(event, "Привет, " + config.vk.users.get(user_id=id)[0]['first_name'])
     elif "$фраза" in str(event):
@@ -29,6 +29,5 @@ for event in config.longpoll.listen():
         functions.send_hmtai(event)
     elif "$беседа" in str(event):
         functions.invited(event)
-    elif "$антимат" in str(event):
-        functions.antimat(event)
+        
     

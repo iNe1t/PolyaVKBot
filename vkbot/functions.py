@@ -46,28 +46,16 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def delete_msg(event):
-    cnvrs_msg_id = event.object.message['conversation_message_id']
-    msg_id = list(config.vk.messages.getByConversationMessageId(peer_id=2000000004 ,conversation_message_ids=cnvrs_msg_id))
-    print(msg_id)
-    config.vk.messages.delete(
-                message_ids=msg_id,
-                delete_for_all=True)
-def antimat(event):
-    on = False
+def antimat(event, on):
     text = event.object.message['text']
-    if text in config.mat_list and on == True:
-            someList = []
-            message_id_for_delete = event.object.message['conversation_message_id']
-            print(message_id_for_delete)
-            someList.append(message_id_for_delete)
-            delete_msg(event, message_id_for_delete)
-            msg_send(event, 'Не ругайся, щука брать')
-    elif '$антимат_вкл' in str(event) and on == False:
+    if '$антимат_вкл' in str(event):
         on = True
         msg_send(event, "Антимат включен")
     elif '$антимат_выкл' in str(event):
         on = False
         msg_send(event, "Антимат отключен")
+    elif text in config.mat_list and on == True:
+            msg_send(event, 'Не ругайся, щука брать')
     else:
-        msg_send(event, "Функция антимат отключена. Для включения набери '$антимат_вкл'")
+        msg_send(event, "Антимат \n Позволяет карать тех, кто обильно выражается. \n Для включения набери '$антимат_вкл'")
+    return on
