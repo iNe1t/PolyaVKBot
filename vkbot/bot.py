@@ -30,7 +30,7 @@ for event in config.longpoll.listen():
     elif "$madeby" in str(event):
         functions.msg_send(event, "@non_cura5 (iNe1t :D)")
     elif "$слава" in str(event):
-        functions.create_db(event, config.users_list)
+        functions.create_chat_db(event, config.users_list, config.database)
     elif "$сменитьник" in str(event):
         functions.nick_change(event, config.users_list)
 

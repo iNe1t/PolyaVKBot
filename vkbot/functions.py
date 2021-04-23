@@ -46,15 +46,19 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def create_db(event, listik):
-    members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
-    def add_user(listik):
-        for user in members:
-            name = user['first_name'] + ' ' + user['last_name']
-            id = user['id']
-            listik.append({id:name})
-        return listik
-    print(add_user(config.users_list))
+def create_chat_db(event, listik, some_database):
+    if listik:
+        print("already exist")
+    else:
+        chat_name = config.vk.messages.getChat(chat_id = event.object.gr)
+        members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
+        def add_user(listik):
+            for user in members:
+                name = user['first_name'] + ' ' + user['last_name']
+                id = user['id']
+                listik.append({id:name})
+            return listik
+        print(add_user(config.users_list))
 def mat_punisher(event):
     return "you"
 def mute():
