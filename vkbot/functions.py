@@ -46,18 +46,24 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def antimat_setup(event, on):
-    text = event.object.message['text']
-    if '$антимат_вкл' in str(event):
-        on = True
-        msg_send(event, "Антимат включен")
-    elif '$антимат_выкл' in str(event):
-        on = False
-        msg_send(event, "Антимат отключен")
-    else:
-        msg_send(event, "Антимат \n Позволяет карать тех, кто обильно выражается. \n Для включения набери '$антимат_вкл'")
-    return print(on)
-def antimat_check(event, on):
-    text = event.object.message['text']
-    if text in config.mat_list and on == True:
-            msg_send(event, 'Не ругайся, щука брать')
+def create_db(event, listik):
+    members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
+    def add_user(listik):
+        for user in members:
+            name = user['first_name'] + ' ' + user['last_name']
+            id = user['id']
+            listik.append({id:name})
+        return listik
+    print(add_user(config.users_list))
+def mat_punisher(event):
+    return "you"
+def mute():
+    return "you"
+def nick_change(event, some_list):
+    nick = event.object.message['text'][12:]
+    for profile in some_list:
+        if event.object.message['from_id'] in profile.keys():
+            profile[event.object.message['from_id']] = nick
+    print(some_list)
+        
+

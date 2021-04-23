@@ -121,3 +121,5 @@ mat_list = ['6ля', '6лядь', '6лять', 'b3ъeб', 'cock', 'cunt', 'e6aл
 
 on = False
 
+users_list = []
+

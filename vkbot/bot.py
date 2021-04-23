@@ -8,9 +8,7 @@ for event in config.longpoll.listen():
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
-    if text in config.mat_list and config.on == True:
-        functions.antimat_check(event, config.on)
-    elif text in config.hi_list:
+    if text in config.hi_list:
         functions.msg_send(event, "Привет, " + config.vk.users.get(user_id=id)[0]['first_name'])
     elif "$фраза" in str(event):
         #Обозначения полов
@@ -29,7 +27,13 @@ for event in config.longpoll.listen():
         functions.send_hmtai(event)
     elif "$беседа" in str(event):
         functions.invited(event)
-    elif "$антимат" in str(event):
-        functions.antimat_setup(event, config.on)
+    elif "$madeby" in str(event):
+        functions.msg_send(event, "@non_cura5 (iNe1t :D)")
+    elif "$слава" in str(event):
+        functions.create_db(event, config.users_list)
+    elif "$сменитьник" in str(event):
+        functions.nick_change(event, config.users_list)
+
+    
         
     
