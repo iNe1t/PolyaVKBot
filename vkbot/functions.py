@@ -50,7 +50,7 @@ def create_chat_db(event, listik, some_database):
     if listik:
         print("already exist")
     else:
-        chat_name = config.vk.messages.getChat(chat_id = event.object.gr)
+        chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
         members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
         def add_user(listik):
             for user in members:
@@ -60,7 +60,8 @@ def create_chat_db(event, listik, some_database):
             return listik
         print(add_user(config.users_list))
 def mat_punisher(event):
-    return "you"
+    chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
+    return print(chat_name)
 def mute():
     return "you"
 def nick_change(event, some_list):

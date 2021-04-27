@@ -5,6 +5,7 @@ import games
 import sqlite3
 
 for event in config.longpoll.listen():
+    print(event)
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
@@ -29,10 +30,12 @@ for event in config.longpoll.listen():
         functions.invited(event)
     elif "$madeby" in str(event):
         functions.msg_send(event, "@non_cura5 (iNe1t :D)")
-    elif "$слава" in str(event):
+    elif "$создатьбд" in str(event):
         functions.create_chat_db(event, config.users_list, config.database)
     elif "$сменитьник" in str(event):
         functions.nick_change(event, config.users_list)
+    elif "$slava" in str(event):
+        functions.mat_punisher(event)
 
     
         
