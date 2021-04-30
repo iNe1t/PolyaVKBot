@@ -121,14 +121,14 @@ mat_list = ['6ля', '6лядь', '6лять', 'b3ъeб', 'cock', 'cunt', 'e6aл
 
 
 
-
-
-
-
-
-
 on = False
 database = {}
 
 users_list = []
+
+action_list_male = ["обнял", "поцеловал", "ударил", "пнул", "изнасиловал", "трахнул"]
+alm_lenght = len(action_list_male) - 1
+
+action_list_female = ["обняла", "поцеловала", "ударила", "пнула", "изнасиловала", "трахнула (я хз как)"]
+alfm_lenght = len(action_list_female) - 1
 

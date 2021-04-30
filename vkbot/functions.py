@@ -1,7 +1,9 @@
 import config
 import random
 import hmtai
-
+#1 — женский;
+#2 — мужской;
+#0 — пол не указан.
 def invited(event):
     #db = sqlite3.connect('chat_db.db')
     #cursor = db.cursor()
@@ -50,7 +52,6 @@ def create_chat_db(event, listik, some_database):
     if listik:
         print("already exist")
     else:
-        chat_name = config.vk.messages.getChat(chat_id = event.object.gr)
         members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
         def add_user(listik):
             for user in members:
@@ -61,7 +62,7 @@ def create_chat_db(event, listik, some_database):
         print(add_user(config.users_list))
 def mat_punisher(event):
     return "you"
-def mute():
+def command_cutter(event):
     return "you"
 def nick_change(event, some_list):
     nick = event.object.message['text'][12:]
@@ -69,5 +70,17 @@ def nick_change(event, some_list):
         if event.object.message['from_id'] in profile.keys():
             profile[event.object.message['from_id']] = nick
     print(some_list)
+def random_action(event):
+    name1 = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["first_name"]
+    name1_sex = sex = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["sex"]
+
+    name2 = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["first_name"]
+    name2_sex = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["sex"]
+    if int(name1_sex) == 2:
+        msg_send(event, name1 + " " + config.action_list_male[random.randint(0, config.alm_lenght)] + " " + name2)
+    else:
+        msg_send(event, name1 + " " +  config.action_list_male[random.randint(0, config.alfm_lenght)] + " " + name2)
+    
+    
         
 
