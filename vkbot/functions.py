@@ -52,6 +52,10 @@ def create_chat_db(event, listik, some_database):
     if listik:
         print("already exist")
     else:
+<<<<<<< HEAD
+=======
+        chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
+>>>>>>> afbb3db6e7765cd86fae216087bb3d37cdcbc896
         members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
         def add_user(listik):
             for user in members:
@@ -61,8 +65,14 @@ def create_chat_db(event, listik, some_database):
             return listik
         print(add_user(config.users_list))
 def mat_punisher(event):
+<<<<<<< HEAD
     return "you"
 def command_cutter(event):
+=======
+    chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
+    return print(chat_name)
+def mute():
+>>>>>>> afbb3db6e7765cd86fae216087bb3d37cdcbc896
     return "you"
 def nick_change(event, some_list):
     nick = event.object.message['text'][12:]
