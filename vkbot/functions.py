@@ -20,8 +20,7 @@ def msg_send(event, text):
               	    message=text,
             	    chat_id = event.chat_id
                     )
-def ban(event):
-    id_for_ban = event.object.message['reply_message']['from_id']
+def ban(event, id_for_ban):
     config.vk.messages.removeChatUser(
         user_id=id_for_ban,
         chat_id=event.chat_id,
@@ -48,38 +47,39 @@ def send_hmtai(event):
             	    chat_id = event.chat_id,
                     attachment= str(link)
                     )
-def create_chat_db(event, listik, some_database):
+def create_chat_db(event, listik):
     if listik:
-        print("already exist")
+        msg_send(event, "База данных уже существует!")
     else:
-<<<<<<< HEAD
-=======
-        chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
->>>>>>> afbb3db6e7765cd86fae216087bb3d37cdcbc896
         members = config.vk.messages.getConversationMembers(peer_id = event.object.message['peer_id'], group_id = event.group_id)['profiles']
         def add_user(listik):
             for user in members:
                 name = user['first_name'] + ' ' + user['last_name']
                 id = user['id']
-                listik.append({id:name})
-            return listik
-        print(add_user(config.users_list))
-def mat_punisher(event):
-<<<<<<< HEAD
-    return "you"
+                karma_counter = 0
+                listik.append({id:name, "karma":karma_counter})
+            print(listik)
+            return msg_send(event, listik) 
+        print(add_user(config.database))
+def mat_punisher(event, database):
+    id = int(event.object.message['from_id'])
+    username = config.vk.users.get(user_id=id)[0]['first_name']
+    for i in database:
+        print(i)
+        if id in i:
+            i['karma'] = i['karma'] + 1
+            if i['karma'] >= 3:
+                ban(event, id)
+                i['karma'] = 0
+    return msg_send(event, config.vk.users.get(user_id=event.object.message['from_id'])[0]['first_name'] + ', не ругайся, щука брать')
 def command_cutter(event):
-=======
-    chat_name = config.vk.messages.getChat(chat_id = event.object.group_id)
-    return print(chat_name)
-def mute():
->>>>>>> afbb3db6e7765cd86fae216087bb3d37cdcbc896
     return "you"
 def nick_change(event, some_list):
     nick = event.object.message['text'][12:]
     for profile in some_list:
         if event.object.message['from_id'] in profile.keys():
             profile[event.object.message['from_id']] = nick
-    print(some_list)
+    msg_send(event, some_list)
 def random_action(event):
     name1 = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["first_name"]
     name1_sex = sex = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["sex"]
