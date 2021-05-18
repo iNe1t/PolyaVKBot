@@ -2,10 +2,9 @@ import config
 import functions
 import random
 import games
-import sqlite3
 
 for event in config.longpoll.listen():
-    #print(event)
+    print(event)
     id = event.object.message['from_id']
     text = event.object.message['text']
     username = config.vk.users.get(user_id=id)[0]['first_name']
@@ -38,6 +37,8 @@ for event in config.longpoll.listen():
         functions.nick_change(event, config.users_list)
     elif "-действие" in str(event):
         functions.random_action(event)
+    elif "-команды" in str(event):
+        functions.msg_send(event, "Префикс: - \n Команды: \n бан \n madeby \n сменитьник \n действие \n фраза \n мут \n слава")    
     elif "-мут" in str(event):
         functions.msg_send(event, "Если ты читаешь это сообщение, значит ты решил кого-то заткнуть в ВК беседе. Но подумай! Во - первых, сообщение в беседе ВК сказал что нельзя удалять. Во - вторых, если ты не хочешь видеть сообщения человека, почему бы его просто не забанить :) \n Ваш разработчик.")
 
