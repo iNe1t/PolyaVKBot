@@ -1,8 +1,8 @@
 import config
 import functions
 import random
-import games
-import sqlite3
+import mafia
+
 
 for event in config.longpoll.listen():
     #print(event)
@@ -40,7 +40,10 @@ for event in config.longpoll.listen():
         functions.random_action(event)
     elif "-мут" in str(event):
         functions.msg_send(event, "Если ты читаешь это сообщение, значит ты решил кого-то заткнуть в ВК беседе. Но подумай! Во - первых, сообщение в беседе ВК сказал что нельзя удалять. Во - вторых, если ты не хочешь видеть сообщения человека, почему бы его просто не забанить :) \n Ваш разработчик.")
-
+    elif "-мафияначать" in str(event):
+        config.GAME_COUNTER = mafia.createMafiaGame(event, config.GAME_COUNTER, config.GAME_LIST)
+    elif "-мафияконнект" in str(event):  
+        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS ) 
     
         
     

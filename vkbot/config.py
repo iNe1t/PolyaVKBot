@@ -4,7 +4,6 @@ import vk_api.vk_api
 import hmtai
 import config
 import bot_key
-import games
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -121,7 +120,7 @@ mat_list = ['6ля', '6лядь', '6лять', 'b3ъeб', 'cock', 'cunt', 'e6aл
 
 
 
-on = False
+
 
 
 database = []
@@ -131,4 +130,8 @@ alm_lenght = len(action_list_male) - 1
 
 action_list_female = ["обняла", "поцеловала", "ударила", "пнула", "изнасиловала", "трахнула (я хз как)"]
 alfm_lenght = len(action_list_female) - 1
+
+GAME_LIST = []
+GAME_COUNTER = 0
+GAME_MAX_PLAYERS = 10
 
