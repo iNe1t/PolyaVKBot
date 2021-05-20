@@ -109,15 +109,19 @@ def nick_change(event, some_list):
 
 
 def random_action(event):
-    name1 = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["first_name"]
-    name1_sex = sex = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["sex"]
-
-    name2 = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["first_name"]
-    name2_sex = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["sex"]
-    if int(name1_sex) == 2:
-        msg_send(event, name1 + " " + config.action_list_male[random.randint(0, config.alm_lenght)] + " " + name2)
+    if int(event.object.message['reply_message']['from_id']) < 0:
+        msg_send(event, "Меня трогать нинада!")
+    
     else:
-        msg_send(event, name1 + " " +  config.action_list_male[random.randint(0, config.alfm_lenght)] + " " + name2)
+        name1 = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["first_name"]
+        name1_sex = sex = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["sex"]
+
+        name2 = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["first_name"]
+        name2_sex = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["sex"]
+        if int(name1_sex) == 2:
+            msg_send(event, name1 + " " + config.action_list_male[random.randint(0, config.alm_lenght)] + " " + name2)
+        else:
+            msg_send(event, name1 + " " +  config.action_list_male[random.randint(0, config.alfm_lenght)] + " " + name2)
     
     
         

@@ -28,7 +28,7 @@ def addUserToGame(event, playerlist, max_players):
         if is_in_game == False:
             playerlist.append({id:username, "role":roles[random.randint(0, len(roles) - 1)], 'is_killed': False})           
     return functions.msg_send(event, playerlist)
-def MafiaStart(event, gamecounter, playerlist):
-    for player in playerlist:
-        
+# def MafiaStart(event, gamecounter, playerlist):
+#     for player in playerlist:
+
             
