@@ -1,6 +1,7 @@
 import config
 import random
 import hmtai
+import bot_key
 #1 — женский;
 #2 — мужской;
 #0 — пол не указан.
@@ -19,7 +20,8 @@ def msg_send(event, text):
               	    message=text,
             	    chat_id = event.chat_id
                     )
-def privatemsg_send(event,receiver_id, text):
+                    
+def MsgSendWithKeyboard(event,receiver_id, text, somekeyboard):
     config.vk.messages.send(
                     key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = config.SERVER,
@@ -27,7 +29,8 @@ def privatemsg_send(event,receiver_id, text):
                     random_id = config.get_random_id(),
               	    message=text,
             	    chat_id = event.chat_id,
-                    peer_id = receiver_id
+                    peer_id = receiver_id,
+                    keyboard = bot_key.mafia_keyboard.get_keyboard()
                     )
 
 

@@ -2,7 +2,7 @@ import config
 import bot_key
 import functions
 import random
-
+import vk_api.keyboard as v_key
 
 def createMafiaGame(event, gamecounter, playerlist):
     game_name = event.object.message['text'][13:]
@@ -12,6 +12,11 @@ def createMafiaGame(event, gamecounter, playerlist):
         gamecounter = gamecounter + 1
         functions.msg_send(event, "Создана игра " + game_name + "! Для присоединения писать '-мафияконнект'")
     return gamecounter
+def KeyboardForKillGenerator(event, playerlist):
+    SomeKeyboard = v_key.VkKeyboard(one_time=True, inline=False)
+    for player in playerlist:
+        SomeKeyboard.add_button(label=player, color='primary')
+    return SomeKeyboard
 def addUserToGame(event, playerlist, max_players):
     if len(playerlist) == max_players:
         functions.msg_send(event, "Достигнуто максимальное число игроков!")
