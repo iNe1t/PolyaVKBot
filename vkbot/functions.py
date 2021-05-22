@@ -2,6 +2,7 @@ import config
 import random
 import hmtai
 import bot_key
+from vk_api.bot_longpoll import VkBotEventType
 #1 — женский;
 #2 — мужской;
 #0 — пол не указан.
@@ -18,7 +19,16 @@ def msg_send(event, text):
                     ts = config.TS,
                     random_id = config.get_random_id(),
               	    message=text,
-            	    chat_id = event.chat_id
+            	    chat_id = event.chat_id,
+                    )
+def privatemsg_send(event, text):
+    config.vk.messages.send(
+                    key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
+                    server = config.SERVER,
+                    ts = config.TS,
+                    random_id = config.get_random_id(),
+              	    message=text,
+                    peer_id = event.object.message['from_id']
                     )
                     
 def MsgSendWithKeyboard(event,receiver_id, text, somekeyboard):
@@ -30,7 +40,7 @@ def MsgSendWithKeyboard(event,receiver_id, text, somekeyboard):
               	    message=text,
             	    chat_id = event.chat_id,
                     peer_id = receiver_id,
-                    keyboard = bot_key.mafia_keyboard.get_keyboard()
+                    keyboard = somekeyboard.get_keyboard()
                     )
 
 
