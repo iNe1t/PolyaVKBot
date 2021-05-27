@@ -131,7 +131,4 @@ alm_lenght = len(action_list_male) - 1
 action_list_female = ["обняла", "поцеловала", "ударила", "пнула", "изнасиловала", "трахнула (я хз как)"]
 alfm_lenght = len(action_list_female) - 1
 
-GAME_LIST = []
-GAME_COUNTER = 0
-GAME_MAX_PLAYERS = 10
 
