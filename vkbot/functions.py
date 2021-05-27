@@ -2,13 +2,9 @@ import config
 import random
 import hmtai
 import bot_key
-<<<<<<< HEAD
 import json
 import os
 
-=======
-from vk_api.bot_longpoll import VkBotEventType
->>>>>>> 47765f1d107ae4437110ba3275c64b0de9b1b069
 #1 — женский;
 #2 — мужской;
 #0 — пол не указан.
