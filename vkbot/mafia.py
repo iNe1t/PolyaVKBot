@@ -15,7 +15,7 @@ def createMafiaGame(event, gamecounter, playerlist):
 def KeyboardForKillGenerator(event, playerlist):
     SomeKeyboard = v_key.VkKeyboard(one_time=True, inline=False)
     for player in playerlist:
-        SomeKeyboard.add_button(label=player, color='primary')
+        SomeKeyboard.add_button(label=str(player)[:35], color='primary')
     return SomeKeyboard
 def addUserToGame(event, playerlist, max_players):
     if len(playerlist) == max_players:
