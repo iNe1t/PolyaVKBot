@@ -2,30 +2,28 @@ import config
 import functions
 import random
 import mafia
-import re
+# import re
 
 
 for event in config.longpoll.listen():
-    print(event)
+    # print(event)
     text = event.object.message['text']
     # username = config.vk.users.get(user_id=id)[0]['first_name']
     if text in config.hi_list:
-        functions.msg_send(event, "Привет, " + config.vk.users.get(user_id=event.object.message['from_id'])[0]['first_name'])
+        functions.msg_send(event, "Привет, " + functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname'])
     elif event.object.message['text'].lower() in config.mat_list:
         functions.mat_punisher(event, config.database)
     elif "-фраза" in str(event):
         #Обозначения полов
         #1 — женский
         #2 — мужской
-        sex = config.vk.users.get(user_id = id, fields = 'sex')[0]['sex']
+        sex = config.vk.users.get(user_id = event.object.message['from_id'], fields = 'sex')[0]['sex']
         if sex == 2:
-            functions.msg_send(event, functions.get_username(event.object.message['from_id'], event, config.database) + config.phrase_list_male[random.randint(0, config.list_len)])
+            functions.msg_send(event, functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname'] + config.phrase_list_male[random.randint(0, config.list_len)])
         if sex == 1:
-            functions.msg_send(event, functions.get_username(event.object.message['from_id'], event, config.database) + config.phrase_list_female[random.randint(0, config.list_len)])
+            functions.msg_send(event, functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname'] + config.phrase_list_female[random.randint(0, config.list_len)])
     elif '-бан' in str(event):
         functions.ban(event, event.object.message['reply_message']['from_id'])
-    elif '-кнбвызов' in str(event):
-        print('Этого нет')
     elif "-дайхентай" in str(event):
         functions.send_hmtai(event)
     elif "-беседа" in str(event):
@@ -46,7 +44,7 @@ for event in config.longpoll.listen():
     elif "-мафияначать" in str(event):
         config.GAME_COUNTER = mafia.createMafiaGame(event, config.GAME_COUNTER, config.GAME_LIST)
     elif "-мафияконнект" in str(event):  
-        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS) 
+        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS, config.GAME_PLAYER_KEYS) 
     elif "-типоклава" in str(event):
         functions.MsgSendWithKeyboard(event, event.object.message['from_id'], "Клава", mafia.KeyboardForKillGenerator(event, config.GAME_LIST))
     

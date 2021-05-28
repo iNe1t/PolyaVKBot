@@ -12,13 +12,13 @@ def invited(event):
     users = config.vk.messages.getChat(chat_id=event.chat_id, fields='nickname')
     print(users)
 
-def get_username(id, event, database):
-    username = ''
+def get_profile(id, event, database):
+    username = {}
     for profile in database:
         if id in profile.keys():
             print(profile)
             if id in profile:
-                username = profile[id]['nickname']
+                username = profile
     return username
      
 
@@ -133,10 +133,10 @@ def random_action(event):
     if int(event.object.message['reply_message']['from_id']) < 0:
         msg_send(event, "Меня трогать нинада!")
     else:
-        name1 = get_username(event.object.message['from_id'], event, config.database)
+        name1 = get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname']
         name1_sex = sex = config.vk.users.get(user_ids = event.object.message['from_id'], fields = "sex")[0]["sex"]
 
-        name2 = get_username(event.object.message['reply_message']['from_id'], event, config.database)
+        name2 = get_profile(event.object.message['reply_message']['from_id'], event, config.database)[event.object.message['reply_message']['from_id']]['nickname']
         name2_sex = config.vk.users.get(user_ids = event.object.message['reply_message']['from_id'], fields = "sex")[0]["sex"]
         if int(name1_sex) == 2:
             msg_send(event, name1 + " " + config.action_list_male[random.randint(0, config.alm_lenght)] + " " + name2)

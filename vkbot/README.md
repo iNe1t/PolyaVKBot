@@ -1,2 +1,0 @@
-# PolyaVKBot
-yep
