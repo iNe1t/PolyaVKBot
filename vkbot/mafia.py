@@ -19,7 +19,7 @@ def KeyboardForKillGenerator(event, playerlist):
         SomeKeyboard.add_button(label=str(player), color='primary')
     return SomeKeyboard
 
-def addUserToGame(event, playerlist, max_players, keylist):
+def addUserToGame(event, playerlist, max_players):
     if len(playerlist) == max_players:
         functions.msg_send(event, "Достигнуто максимальное число игроков!")
     else:

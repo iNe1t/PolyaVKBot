@@ -44,7 +44,7 @@ for event in config.longpoll.listen():
     elif "-мафияначать" in str(event):
         config.GAME_COUNTER = mafia.createMafiaGame(event, config.GAME_COUNTER, config.GAME_LIST)
     elif "-мафияконнект" in str(event):  
-        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS, config.GAME_PLAYER_KEYS) 
+        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS) 
     elif "-типоклава" in str(event):
         functions.MsgSendWithKeyboard(event, event.object.message['from_id'], "Клава", mafia.KeyboardForKillGenerator(event, config.GAME_LIST))
     
