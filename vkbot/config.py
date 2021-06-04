@@ -132,7 +132,7 @@ action_list_female = ["обняла", "поцеловала", "ударила", 
 alfm_lenght = len(action_list_female) - 1
 
 GAME_COUNTER = 0
-GAME_LIST = []
+GAME_LIST = {}
 GAME_MAX_PLAYERS = 10
 ROLES_COUNTER = {"Мирный":0, "Мафия":0, "Доктор":0, "Дон":0, "Шериф":0}
 ROLES_MAX = {"Мафия":3, "Доктор":1, "Дон":1, "Шериф":1}

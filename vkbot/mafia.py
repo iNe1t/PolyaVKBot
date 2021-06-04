@@ -26,14 +26,18 @@ def addUserToGame(event, playerlist, max_players):
         username = functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname']
         roles = ["Мирный", "Мафия", "Доктор", "Дон", "Шериф"]
         is_in_game = False
+        somekeys = list(playerlist)
         for i in playerlist:
-            if id in i:
+            if event.object.message['from_id'] in somekeys:
                 functions.msg_send(event, "Ты уже в игре, дурашка!")
                 is_in_game = True
                 break
         if is_in_game == False:
-            playerlist.append([event.object.message['from_id'], roles[random.randint(0, len(roles) - 1)] ,False])          
-    return functions.msg_send(event, playerlist)
+            playerlist.update([(event.object.message['from_id'], {'role':roles[random.randint(0, len(roles) - 1)] ,'is_killed':False})]) 
+            
+        print("Нынешний плеерлист: " + str(playerlist))
+        print("Ключи: "+ str(somekeys))         
+    return functions.msg_send(event, str(playerlist))
 # def MafiaStart(event, gamecounter, playerlist):
 #     for player in playerlist:
 
