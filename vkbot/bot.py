@@ -7,9 +7,8 @@ import mafia
 
 for event in config.longpoll.listen():
     # print(event)
-    text = event.object.message['text']
     # username = config.vk.users.get(user_id=id)[0]['first_name']
-    if text in config.hi_list:
+    if event.object.message['text'] in config.hi_list:
         functions.msg_send(event, "Привет, " + functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname'])
     elif event.object.message['text'].lower() in config.mat_list:
         functions.mat_punisher(event, config.database)
@@ -44,7 +43,7 @@ for event in config.longpoll.listen():
     elif "-мафияначать" in str(event):
         config.GAME_COUNTER = mafia.createMafiaGame(event, config.GAME_COUNTER, config.GAME_LIST)
     elif "-мафияконнект" in str(event):  
-        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS) 
+        mafia.addUserToGame(event, config.GAME_LIST, config.GAME_MAX_PLAYERS, config.GAME_KEYLIST) 
     elif "-типоклава" in str(event):
         functions.MsgSendWithKeyboard(event, event.object.message['from_id'], "Клава", mafia.KeyboardForKillGenerator(event, config.GAME_LIST))
     
