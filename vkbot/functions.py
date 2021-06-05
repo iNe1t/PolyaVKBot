@@ -31,14 +31,14 @@ def msg_send(event, text):
               	    message=text,
             	    chat_id = event.chat_id,
                     )
-def privatemsg_send(event, text):
+def privatemsg_send(event, text, claim_id):
     config.vk.messages.send(
                     key = config.KEY,          #ВСТАВИТЬ ПАРАМЕТРЫ
                     server = config.SERVER,
                     ts = config.TS,
                     random_id = config.get_random_id(),
               	    message=text,
-                    peer_id = event.object.message['from_id']
+                    peer_id = claim_id
                     )
                     
 def MsgSendWithKeyboard(event,receiver_id, text, somekeyboard):
