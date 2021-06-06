@@ -13,5 +13,4 @@ keyboard_rps.add_button(label='✊🏻', color='positive') #Камень
 keyboard_rps.add_button(label='✋🏻', color='positive') #Бумага
 keyboard_rps.add_button(label='✌🏻', color='positive') #Ножницы
 # Клава для мафии
-mafia_keyboard = v_key.VkKeyboard(one_time=True, inline=False)
 

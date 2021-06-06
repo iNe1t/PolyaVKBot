@@ -2,7 +2,6 @@ import config
 import functions
 import random
 import mafia
-# import re
 
 # try:
 
@@ -52,9 +51,12 @@ for event in config.longpoll.listen():
         elif "-мафияконнект" in str(event):
             config.GAME_KEYLIST = mafia.addUserToGame(
                 event, config.GAME_LIST, config.GAME_MAX_PLAYERS, config.GAME_KEYLIST)
+        elif "-мафиястарт" in str(event):
+            config.GAME_KEYLIST = mafia.MafiaStart(
+                event, config.GAME_COUNTER, config.GAME_KEYLIST)
         elif "-типоклава" in str(event):
             functions.MsgSendWithKeyboard(
-                event, event.object.message['from_id'], "Клава", mafia.KeyboardForKillGenerator(event, config.GAME_LIST))
+                event, event.object.message['from_id'], "Клава", mafia.KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
     elif event.type == config.VkBotEventType.MESSAGE_TYPING_STATE:
         pass
     else:

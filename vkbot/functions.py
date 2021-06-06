@@ -2,8 +2,7 @@ import config
 import random
 import hmtai
 import bot_key
-import json
-import os
+
 
 #1 — женский;
 #2 — мужской;
@@ -19,6 +18,7 @@ def get_profile(id, event, database):
             print(profile)
             if id in profile:
                 username = profile
+    print("Запрашиваемый профиль " + str(username))
     return username
      
 
@@ -124,9 +124,12 @@ def mat_punisher(event, database):
 
 def nick_change(event, some_list):
     nick = event.object.message['text'][12:]
-    for profile in some_list:
-        if event.object.message['from_id'] in profile.keys():
-            profile[event.object.message['from_id']]['nickname'] = nick
+    if len(nick) >= 40:
+        msg_send(event, "Твой ник слишком длинный!")
+    else:
+        for profile in some_list:
+            if event.object.message['from_id'] in profile.keys():
+                profile[event.object.message['from_id']]['nickname'] = nick
     msg_send(event, some_list)
 
 def random_action(event):
