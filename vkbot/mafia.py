@@ -3,7 +3,7 @@ import bot_key
 import functions
 import random
 import vk_api.keyboard as v_key
-
+# создать игру "Мафия"
 def createMafiaGame(event, gamecounter, playerlist):
     if gamecounter >= 1:
         functions.msg_send(event, "Игра уже начата!")
@@ -12,17 +12,17 @@ def createMafiaGame(event, gamecounter, playerlist):
         gamecounter = gamecounter + 1
         functions.msg_send(event, "Создана игра " + game_name + "! Для присоединения писать '-мафияконнект'")
     return gamecounter
-
+# генерирует  клавиатуру с людьми
 def KeyboardGenerator(event, playerlist, keylist):
     SomeKeyboard = v_key.VkKeyboard(one_time=True, inline=False)
     for id in keylist:
         SomeKeyboard.add_button(label=str(functions.get_profile(id, event, config.database)[id]['nickname']), color='primary')
     return SomeKeyboard
-
+# получить роль пользователя
 def GetRole(event, playerlist, keylist, id):
     user_role = playerlist[id]['role']
     return user_role
-
+# подключение пользователя к игре
 def addUserToGame(event, playerlist, max_players, keylist):
     print("Нынешние ключи: " + str(keylist))
     if len(playerlist) == max_players:
@@ -39,8 +39,9 @@ def addUserToGame(event, playerlist, max_players, keylist):
         print("Ключи: "+ str(keylist))    
         functions.msg_send(event, str(playerlist))      
     return keylist
-    
-def MafiaStart(event, gamecounter, keylist):
+# начать игру
+def StartAndGiveRoles(event, gamecounter, keylist):
+    # для начала отправим сообщения пользователям в зависимотси от их ролей
     for player in keylist:
         if GetRole(event, config.GAME_LIST, config.GAME_KEYLIST, player).lower() == "мирный":
             functions.privatemsg_send(event, "Ты просто Мирный. Молись, чтобы тебя не убили :D", int(player))
@@ -52,5 +53,7 @@ def MafiaStart(event, gamecounter, keylist):
             functions.MsgSendWithKeyboard(event, int(player), "Ты - Дон! Выбирай того, кого хочешь проверить на Шерифа", KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
         elif GetRole(event, config.GAME_LIST, config.GAME_KEYLIST, player).lower() == "шериф":
             functions.MsgSendWithKeyboard(event, int(player), "Ты - Шериф! Выбирай того, кого хочешь проверить на Мафия", KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
+def RolesAction(event, keylist):
+    return x
 
             
