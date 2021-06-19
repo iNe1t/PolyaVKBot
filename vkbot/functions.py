@@ -20,6 +20,9 @@ def get_profile(id, event, database):
                 username = profile
     print("Запрашиваемый профиль " + str(username))
     return username
+def get_profile_list(event, database):
+    for profile in database:
+        nick = profile
      
 
 def msg_send(event, text):
@@ -103,7 +106,8 @@ def create_chat_db(event, listik):
                 karma_counter = 0
                 listik.append({id:{'nickname': name,"karma":karma_counter, 'role': "none", 'is_killed': False}})
             print(listik)
-            return msg_send(event, listik) 
+            return msg_send(event, listik)
+             
         print(add_user(config.database))
 
 

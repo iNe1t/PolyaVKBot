@@ -54,6 +54,6 @@ def StartAndGiveRoles(event, gamecounter, keylist):
         elif GetRole(event, config.GAME_LIST, config.GAME_KEYLIST, player).lower() == "шериф":
             functions.MsgSendWithKeyboard(event, int(player), "Ты - Шериф! Выбирай того, кого хочешь проверить на Мафия", KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
 def RolesAction(event, keylist):
-    return x
+    if 
 
             
