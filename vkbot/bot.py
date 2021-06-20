@@ -2,13 +2,15 @@ import config
 import functions
 import random
 import mafia
+import yaml
+# yaml.load(dict) - из str в dict
 
 # try:
 
 for event in config.longpoll.listen():
     print(event)
-    if event.object.message['id'] == 0:
-        if event.type == config.VkBotEventType.MESSAGE_NEW:
+    if event.type == config.VkBotEventType.MESSAGE_NEW :
+        if event.object.id  == 0 or event.object.message['id'] == 0:
             # username = config.vk.users.get(user_id=id)[0]['first_name']
             if event.object.message['text'] in config.hi_list:
                 functions.msg_send(event, "Привет, " + functions.get_profile(event.object.message['from_id'], event, config.database)[event.object.message['from_id']]['nickname'])
@@ -59,9 +61,7 @@ for event in config.longpoll.listen():
                 functions.MsgSendWithKeyboard(
                     event, event.object.message['from_id'], "Клава", mafia.KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
         else:
-            continue
-    elif event.object.message['id'] > 0:
-        pass
+            mafia.RolesAction(event, config.GAME_KEYLIST)
     else:
         pass
 
