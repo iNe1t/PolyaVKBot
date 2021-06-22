@@ -3,6 +3,7 @@ import functions
 import random
 import mafia
 import yaml
+import game
 # yaml.load(dict) - из str в dict
 
 # try:
@@ -55,13 +56,12 @@ for event in config.longpoll.listen():
                 config.GAME_KEYLIST = mafia.addUserToGame(
                     event, config.GAME_LIST, config.GAME_MAX_PLAYERS, config.GAME_KEYLIST)
             elif "-мафиястарт" in str(event):
-                config.GAME_KEYLIST = mafia.StartAndGiveRoles(
-                    event, config.GAME_COUNTER, config.GAME_KEYLIST)
+                game.GameProcess(event, config.GAME_LIST, config.GAME_KEYLIST, config.ROLES_COUNTER)
             elif "-типоклава" in str(event):
                 functions.MsgSendWithKeyboard(
                     event, event.object.message['from_id'], "Клава", mafia.KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
         else:
-            mafia.RolesAction(event, config.GAME_KEYLIST)
+            mafia.RolesAction(event,config.GAME_KEYLIST)
     else:
         pass
 

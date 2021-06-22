@@ -136,6 +136,7 @@ GAME_LIST = {}
 GAME_KEYLIST = []
 GAME_MAX_PLAYERS = 9
 ROLES_COUNTER = {"Мирный":0, "Мафия":0, "Доктор":0, "Дон":0, "Шериф":0}
-ROLES_MAX = {"Мафия":3, "Доктор":1, "Дон":1, "Шериф":1}
+ROLES_MAX = {"Мафия":GAME_MAX_PLAYERS//3, "Доктор":1, "Дон":1, "Шериф":1}
+
 
 

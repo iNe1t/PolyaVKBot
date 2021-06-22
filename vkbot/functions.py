@@ -4,6 +4,8 @@ import hmtai
 import bot_key
 
 
+
+
 #1 — женский;
 #2 — мужской;
 #0 — пол не указан.
