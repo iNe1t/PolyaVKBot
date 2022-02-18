@@ -58,7 +58,7 @@ for event in config.longpoll.listen():
             elif "-мафиястарт" in str(event):
                 game.GameProcess(event, config.GAME_LIST, config.GAME_KEYLIST, config.ROLES_COUNTER)
             elif "-типоклава" in str(event):
-                functions.MsgSendWithKeyboard(
+                functions.MsgsendWithKeyboard(
                     event, event.object.message['from_id'], "Клава", mafia.KeyboardGenerator(event, config.GAME_LIST, config.GAME_KEYLIST))
         else:
             mafia.RolesAction(event,config.GAME_KEYLIST)
